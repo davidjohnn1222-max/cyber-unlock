@@ -11,6 +11,8 @@
             --blue: #00eaff;
             --blue-soft: rgba(0, 234, 255, 0.5);
             --blue-glow: rgba(0, 234, 255, 0.9);
+            --alert: #ff3333;
+            --success: #00ff88;
         }
 
         * {
@@ -402,6 +404,7 @@
             box-shadow:
                 0 0 20px rgba(0, 247, 255, 0.6),
                 inset 0 0 20px rgba(0, 247, 255, 0.3);
+            transition: transform 0.5s ease-in-out, border-color 0.5s ease;
         }
 
         /* Circuit pattern on lock */
@@ -670,12 +673,128 @@
                 opacity: 0.5;
             }
         }
+
+        /* --- NEW ELEMENTS --- */
+        .jarvis-sidebar-left {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 20;
+            color: var(--blue-soft);
+            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            border-left: 2px solid var(--blue-soft);
+            padding-left: 10px;
+            background: linear-gradient(90deg, rgba(0, 20, 30, 0.6) 0%, transparent 100%);
+        }
+
+        .jarvis-sidebar-right {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 20;
+            color: var(--blue-soft);
+            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            text-align: right;
+            border-right: 2px solid var(--blue-soft);
+            padding-right: 10px;
+            background: linear-gradient(-90deg, rgba(0, 20, 30, 0.6) 0%, transparent 100%);
+        }
+
+        .diag-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 234, 255, 0.1);
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .diag-fill {
+            height: 100%;
+            background: var(--blue);
+            width: 50%;
+            box-shadow: 0 0 5px var(--blue-glow);
+            animation: barFill 3s infinite ease-in-out alternate;
+        }
+
+        @keyframes barFill {
+            0% {
+                width: 30%;
+            }
+
+            100% {
+                width: 90%;
+            }
+        }
+
+        .log-terminal {
+            height: 150px;
+            overflow: hidden;
+            opacity: 0.8;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            font-family: monospace;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .spectral-bars {
+            display: flex;
+            gap: 3px;
+            height: 50px;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
+        .s-bar {
+            width: 4px;
+            background: var(--blue);
+            animation: spectral 1s infinite ease-in-out;
+        }
+
+        @keyframes spectral {
+
+            0%,
+            100% {
+                height: 20%;
+            }
+
+            50% {
+                height: 100%;
+            }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 900;
+            opacity: 0.3;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="bg-container"></div>
+    <div class="scanlines"></div>
 
     <!-- HUD FRAME -->
     <div class="hud-frame corner-tl"></div>
@@ -702,6 +821,59 @@
     <div class="hud-panel panel-br">
         <div class="label">SIGNAL</div>
         <div class="value">STABLE</div>
+    </div>
+
+    <!-- NEW JARVIS ELEMENTS -->
+    <!-- LEFT SIDEBAR -->
+    <div class="jarvis-sidebar-left">
+        <div>
+            <div>CPU_CORE_01</div>
+            <div class="diag-bar">
+                <div class="diag-fill" style="animation-delay: 0s"></div>
+            </div>
+        </div>
+        <div>
+            <div>MEMORY_ALLOC</div>
+            <div class="diag-bar">
+                <div class="diag-fill" style="animation-delay: 0.5s"></div>
+            </div>
+        </div>
+        <div>
+            <div>NETWORK_IO</div>
+            <div class="diag-bar">
+                <div class="diag-fill" style="animation-delay: 1s"></div>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <div style="border-bottom: 1px solid var(--blue-soft); margin-bottom: 5px;">SYSTEM LOGS</div>
+            <div class="log-terminal" id="logTerminal"></div>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="jarvis-sidebar-right">
+        <div>TARGET LOCK</div>
+        <div style="display: flex; justify-content: flex-end;">
+            <div
+                style="width: 80px; height: 80px; border: 1px solid var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div
+                    style="width: 70px; height: 70px; border: 1px dashed var(--blue-soft); border-radius: 50%; animation: rotate 4s linear infinite;">
+                </div>
+                <div style="width: 4px; height: 4px; background: var(--blue); border-radius: 50%;"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <div>SPECTRAL ANALYSIS</div>
+            <div class="spectral-bars">
+                <div class="s-bar" style="animation-delay: 0.1s"></div>
+                <div class="s-bar" style="animation-delay: 0.3s"></div>
+                <div class="s-bar" style="animation-delay: 0.2s"></div>
+                <div class="s-bar" style="animation-delay: 0.5s"></div>
+                <div class="s-bar" style="animation-delay: 0.1s"></div>
+                <div class="s-bar" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
     </div>
 
     <!-- LOCK CONTAINER -->
@@ -753,7 +925,7 @@
 
             <!-- Main lock -->
             <div class="lock-body">
-                <div class="shackle"></div>
+                <div class="shackle" id="shackle"></div>
 
                 <!-- Circuit pattern -->
                 <div class="circuit-line h1"></div>
@@ -775,20 +947,64 @@
                 </div>
 
                 <!-- Status text -->
-                <div class="status-text">SECURED</div>
+                <div class="status-text" id="accessStatus">ACCESS DENIED</div>
+
             </div>
         </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        const container = document.querySelector('.bg-container');
-        for (let i = 0; i < 30; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDelay = Math.random() * 12 + 's';
-            container.appendChild(p);
-        }
+        const socket = io();
+        const statusText = document.getElementById("accessStatus");
+        const shackle = document.getElementById("shackle");
+
+        // Log generation
+        const logs = document.getElementById('logTerminal');
+        const phrases = [
+            "Handshake initiated...",
+            "Packet validated 0x4F3A",
+            "Encrypting stream...",
+            "Buffer overflow check: PASS",
+            "Port 8080 listening...",
+            "User auth pending...",
+            "Scanning biometrics...",
+            "Ping: 12ms",
+            "Tracing route...",
+            "Firewall active..."
+        ];
+
+        setInterval(() => {
+            if (logs) {
+                const el = document.createElement('div');
+                el.innerText = `> ${phrases[Math.floor(Math.random() * phrases.length)]} ${Math.floor(Math.random() * 1000)}`;
+                logs.prepend(el);
+                if (logs.children.length > 8) logs.lastChild.remove();
+            }
+        }, 800);
+
+        // Initial state
+        statusText.textContent = "ACCESS DENIED";
+        statusText.style.color = "#00eaff";
+
+        socket.on("access-denied", () => {
+            statusText.textContent = "ACCESS DENIED";
+            statusText.style.color = "#ff3333";
+            const lockBody = document.querySelector('.lock-body');
+            lockBody.style.borderColor = "#ff3333";
+            shackle.style.transform = "translateY(0)";
+            shackle.style.borderColor = "rgba(255, 51, 51, 0.9)";
+        });
+
+        socket.on("access-granted", () => {
+            statusText.textContent = "ACCESS GRANTED";
+            statusText.style.color = "#00ff88";
+            // Animate unlocked state
+            const lockBody = document.querySelector('.lock-body');
+            lockBody.style.borderColor = "#00ff88";
+            shackle.style.transform = "translateY(-40px)";
+            shackle.style.borderColor = "rgba(0, 255, 136, 0.9)";
+        });
     </script>
 </body>
 
