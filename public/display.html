@@ -11,6 +11,7 @@
             --blue: #00eaff;
             --blue-soft: rgba(0, 234, 255, 0.5);
             --blue-glow: rgba(0, 234, 255, 0.9);
+            --success: #00ff88;
         }
 
         * {
@@ -670,6 +671,75 @@
                 opacity: 0.5;
             }
         }
+
+        /* --- UNLOCKED STATE --- */
+        body.unlocked .shackle {
+            transform: translateY(-40px);
+            border-color: var(--success);
+            box-shadow: 0 0 20px var(--success), inset 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        body.unlocked .lock-body {
+            border-color: var(--success);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.4), inset 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        body.unlocked .status-text {
+            color: var(--success);
+            text-shadow: 0 0 15px var(--success);
+        }
+
+        body.unlocked .outer-ring,
+        body.unlocked .inner-ring {
+            border-color: rgba(0, 255, 136, 0.6);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        body.unlocked .ring-segment::before {
+            background: linear-gradient(90deg, transparent, var(--success), transparent);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        body.unlocked .keyhole-circle {
+            background: radial-gradient(circle, var(--success) 0%, rgba(0, 255, 136, 0.4) 70%);
+            box-shadow: 0 0 20px var(--success), inset 0 0 10px var(--success);
+        }
+
+        body.unlocked .keyhole-slot {
+            background: linear-gradient(180deg, var(--success), rgba(0, 255, 136, 0.4));
+            box-shadow: 0 0 15px var(--success);
+        }
+
+        body.unlocked .circuit-node {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        body.unlocked .security-icon {
+            border-color: rgba(0, 255, 136, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        body.unlocked .security-icon svg {
+            stroke: var(--success);
+            filter: drop-shadow(0 0 5px var(--success));
+        }
+
+        body.unlocked .value {
+            color: var(--success);
+            text-shadow: 0 0 12px var(--success);
+        }
+
+        body.unlocked .corner-tl,
+        body.unlocked .corner-tr,
+        body.unlocked .corner-bl,
+        body.unlocked .corner-br {
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        body.unlocked .hud-line {
+            background: rgba(0, 255, 136, 0.5);
+        }
     </style>
 </head>
 
@@ -780,6 +850,7 @@
         </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         const container = document.querySelector('.bg-container');
         for (let i = 0; i < 30; i++) {
@@ -789,6 +860,38 @@
             p.style.animationDelay = Math.random() * 12 + 's';
             container.appendChild(p);
         }
+
+        // --- SOCKET LOGIC ---
+        const socket = io();
+        const statusText = document.querySelector('.status-text');
+        const hudStatusValue = document.querySelector('.panel-tr .value'); // The "ONLINE" status in HUD
+        const body = document.body;
+
+        socket.on('connect', () => {
+            if (hudStatusValue) {
+                hudStatusValue.innerText = "ONLINE";
+                hudStatusValue.style.color = "var(--blue)";
+            }
+        });
+
+        socket.on('disconnect', () => {
+            if (hudStatusValue) {
+                hudStatusValue.innerText = "OFFLINE";
+                hudStatusValue.style.color = "red";
+            }
+        });
+
+        socket.on('unlock', () => {
+            // Trigger Unlock Animation
+            body.classList.add('unlocked');
+            if (statusText) statusText.innerText = "ACCESS GRANTED";
+
+            // Auto-lock after 5 seconds
+            setTimeout(() => {
+                body.classList.remove('unlocked');
+                if (statusText) statusText.innerText = "SECURED";
+            }, 5000);
+        });
     </script>
 </body>
 
