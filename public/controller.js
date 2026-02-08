@@ -16,7 +16,7 @@ document.body.addEventListener(
   () => {
     if (!hum) return;
     hum.volume = 0.25;
-    hum.play().catch(() => {});
+    hum.play().catch(() => { });
   },
   { once: true }
 );

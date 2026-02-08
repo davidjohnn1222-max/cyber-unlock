@@ -11,7 +11,6 @@
             --blue: #00eaff;
             --blue-soft: rgba(0, 234, 255, 0.5);
             --blue-glow: rgba(0, 234, 255, 0.9);
-            --success: #00ff88;
         }
 
         * {
@@ -403,6 +402,7 @@
             box-shadow:
                 0 0 20px rgba(0, 247, 255, 0.6),
                 inset 0 0 20px rgba(0, 247, 255, 0.3);
+            transition: transform 0.5s ease-in-out, border-color 0.5s ease;
         }
 
         /* Circuit pattern on lock */
@@ -671,81 +671,13 @@
                 opacity: 0.5;
             }
         }
-
-        /* --- UNLOCKED STATE --- */
-        body.unlocked .shackle {
-            transform: translateY(-40px);
-            border-color: var(--success);
-            box-shadow: 0 0 20px var(--success), inset 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-
-        body.unlocked .lock-body {
-            border-color: var(--success);
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.4), inset 0 0 30px rgba(0, 255, 136, 0.2);
-        }
-
-        body.unlocked .status-text {
-            color: var(--success);
-            text-shadow: 0 0 15px var(--success);
-        }
-
-        body.unlocked .outer-ring,
-        body.unlocked .inner-ring {
-            border-color: rgba(0, 255, 136, 0.6);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-        }
-
-        body.unlocked .ring-segment::before {
-            background: linear-gradient(90deg, transparent, var(--success), transparent);
-            box-shadow: 0 0 10px var(--success);
-        }
-
-        body.unlocked .keyhole-circle {
-            background: radial-gradient(circle, var(--success) 0%, rgba(0, 255, 136, 0.4) 70%);
-            box-shadow: 0 0 20px var(--success), inset 0 0 10px var(--success);
-        }
-
-        body.unlocked .keyhole-slot {
-            background: linear-gradient(180deg, var(--success), rgba(0, 255, 136, 0.4));
-            box-shadow: 0 0 15px var(--success);
-        }
-
-        body.unlocked .circuit-node {
-            background: var(--success);
-            box-shadow: 0 0 10px var(--success);
-        }
-
-        body.unlocked .security-icon {
-            border-color: rgba(0, 255, 136, 0.6);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-        }
-
-        body.unlocked .security-icon svg {
-            stroke: var(--success);
-            filter: drop-shadow(0 0 5px var(--success));
-        }
-
-        body.unlocked .value {
-            color: var(--success);
-            text-shadow: 0 0 12px var(--success);
-        }
-
-        body.unlocked .corner-tl,
-        body.unlocked .corner-tr,
-        body.unlocked .corner-bl,
-        body.unlocked .corner-br {
-            border-color: rgba(0, 255, 136, 0.5);
-        }
-
-        body.unlocked .hud-line {
-            background: rgba(0, 255, 136, 0.5);
-        }
     </style>
 </head>
 
 <body>
 
     <div class="bg-container"></div>
+    <div class="scanlines"></div>
 
     <!-- HUD FRAME -->
     <div class="hud-frame corner-tl"></div>
@@ -772,6 +704,59 @@
     <div class="hud-panel panel-br">
         <div class="label">SIGNAL</div>
         <div class="value">STABLE</div>
+    </div>
+
+    <!-- NEW JARVIS ELEMENTS -->
+    <!-- LEFT SIDEBAR -->
+    <div class="jarvis-sidebar-left">
+        <div>
+            <div>CPU_CORE_01</div>
+            <div class="diag-bar">
+                <div class="diag-fill" style="animation-delay: 0s"></div>
+            </div>
+        </div>
+        <div>
+            <div>MEMORY_ALLOC</div>
+            <div class="diag-bar">
+                <div class="diag-fill" style="animation-delay: 0.5s"></div>
+            </div>
+        </div>
+        <div>
+            <div>NETWORK_IO</div>
+            <div class="diag-bar">
+                <div class="diag-fill" style="animation-delay: 1s"></div>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <div style="border-bottom: 1px solid var(--blue-soft); margin-bottom: 5px;">SYSTEM LOGS</div>
+            <div class="log-terminal" id="logTerminal"></div>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="jarvis-sidebar-right">
+        <div>TARGET LOCK</div>
+        <div style="display: flex; justify-content: flex-end;">
+            <div
+                style="width: 80px; height: 80px; border: 1px solid var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div
+                    style="width: 70px; height: 70px; border: 1px dashed var(--blue-soft); border-radius: 50%; animation: rotate 4s linear infinite;">
+                </div>
+                <div style="width: 4px; height: 4px; background: var(--blue); border-radius: 50%;"></div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <div>SPECTRAL ANALYSIS</div>
+            <div class="spectral-bars">
+                <div class="s-bar" style="animation-delay: 0.1s"></div>
+                <div class="s-bar" style="animation-delay: 0.3s"></div>
+                <div class="s-bar" style="animation-delay: 0.2s"></div>
+                <div class="s-bar" style="animation-delay: 0.5s"></div>
+                <div class="s-bar" style="animation-delay: 0.1s"></div>
+                <div class="s-bar" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
     </div>
 
     <!-- LOCK CONTAINER -->
@@ -823,7 +808,7 @@
 
             <!-- Main lock -->
             <div class="lock-body">
-                <div class="shackle"></div>
+                <div class="shackle" id="shackle"></div>
 
                 <!-- Circuit pattern -->
                 <div class="circuit-line h1"></div>
@@ -845,7 +830,8 @@
                 </div>
 
                 <!-- Status text -->
-                <div class="status-text">SECURED</div>
+                <div class="status-text" id="accessStatus">ACCESS DENIED</div>
+
             </div>
         </div>
     </div>
@@ -860,38 +846,6 @@
             p.style.animationDelay = Math.random() * 12 + 's';
             container.appendChild(p);
         }
-
-        // --- SOCKET LOGIC ---
-        const socket = io();
-        const statusText = document.querySelector('.status-text');
-        const hudStatusValue = document.querySelector('.panel-tr .value'); // The "ONLINE" status in HUD
-        const body = document.body;
-
-        socket.on('connect', () => {
-            if (hudStatusValue) {
-                hudStatusValue.innerText = "ONLINE";
-                hudStatusValue.style.color = "var(--blue)";
-            }
-        });
-
-        socket.on('disconnect', () => {
-            if (hudStatusValue) {
-                hudStatusValue.innerText = "OFFLINE";
-                hudStatusValue.style.color = "red";
-            }
-        });
-
-        socket.on('unlock', () => {
-            // Trigger Unlock Animation
-            body.classList.add('unlocked');
-            if (statusText) statusText.innerText = "ACCESS GRANTED";
-
-            // Auto-lock after 5 seconds
-            setTimeout(() => {
-                body.classList.remove('unlocked');
-                if (statusText) statusText.innerText = "SECURED";
-            }, 5000);
-        });
     </script>
 </body>
 

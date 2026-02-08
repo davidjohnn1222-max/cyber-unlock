@@ -499,29 +499,16 @@ const socket = io();
 const fp = document.getElementById("fingerprint");
 const statusText = document.getElementById("status");
 
-let timer, unlocked=false;
-function goFullscreen(){
-  const el = document.documentElement;
+let timer = null;
+let unlocked = false;
 
-  if (!document.fullscreenElement) {
-    if (el.requestFullscreen) el.requestFullscreen();
-    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen(); // iOS
-    else if (el.msRequestFullscreen) el.msRequestFullscreen();
-  }
-}
-
-
-function start(){
-  if(unlocked) return;
-
-  goFullscreen(); // 👈 enter fullscreen on first press
+function start() {
+  if (unlocked) return;
 
   fp.classList.add("active");
   document.body.classList.add("scanning");
 
-  if(navigator.vibrate) navigator.vibrate(40);
-
-  timer = setTimeout(()=>{
+  timer = setTimeout(() => {
     unlocked = true;
 
     fp.classList.remove("active");
@@ -530,30 +517,32 @@ function start(){
 
     statusText.style.opacity = 1;
 
-    if(navigator.vibrate) navigator.vibrate([100,50,100]);
-    socket.emit("unlock");
-  },5000);
+    socket.emit("unlock"); // ✅ ACCESS GRANTED
+  }, 5000);
 }
 
+function stop() {
+  if (unlocked) return;
 
-function stop(){
-  if(unlocked) return;
-  fp.classList.remove("active");
   clearTimeout(timer);
+  fp.classList.remove("active");
+  document.body.classList.remove("scanning");
+
+  socket.emit("lock"); // ✅ ACCESS DENIED if released early
 }
 
-fp.addEventListener("touchstart", start);
 fp.addEventListener("mousedown", start);
-fp.addEventListener("touchend", stop);
+fp.addEventListener("touchstart", start);
 fp.addEventListener("mouseup", stop);
 fp.addEventListener("mouseleave", stop);
+fp.addEventListener("touchend", stop);
+
 </script>
 
 <audio id="hum" loop>
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_5b5d9c1b7c.mp3" type="audio/mpeg">
 </audio>
 
-</html>
 </body>
 </html>
 

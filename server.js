@@ -9,7 +9,13 @@ io.on("connection", (socket) => {
   console.log("Device connected");
 
   socket.on("unlock", () => {
-    io.emit("unlock");
+    console.log("ACCESS GRANTED");
+    io.emit("access-granted");
+  });
+
+  socket.on("lock", () => {
+    console.log("ACCESS DENIED");
+    io.emit("access-denied");
   });
 });
 
