@@ -8,9 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
+            /* Base Colors */
             --blue: #00eaff;
             --blue-soft: rgba(0, 234, 255, 0.5);
             --blue-glow: rgba(0, 234, 255, 0.9);
+
+            --success: #00ff88;
+            --success-soft: rgba(0, 255, 136, 0.5);
+            --success-glow: rgba(0, 255, 136, 0.9);
+
+            --alert: #ff3333;
+        }
+
+        /* THEME OVERRIDE FOR UNLOCKED STATE */
+        body.unlocked {
+            --blue: var(--success);
+            --blue-soft: var(--success-soft);
+            --blue-glow: var(--success-glow);
         }
 
         * {
@@ -45,6 +59,8 @@
             z-index: 10;
             opacity: 0;
             animation: frameIn 2.2s ease forwards;
+            border-color: var(--blue-soft);
+            /* Implicitly uses defaults, but needs explicit border color for corners */
         }
 
         .corner-tl,
@@ -53,6 +69,7 @@
         .corner-br {
             width: 200px;
             height: 200px;
+            transition: border-color 0.5s ease;
         }
 
         .corner-tl {
@@ -98,6 +115,7 @@
             opacity: 0;
             animation: lineIn 2s ease forwards;
             animation-delay: 1.2s;
+            transition: background-color 0.5s ease;
         }
 
         .line-top {
@@ -119,6 +137,7 @@
             animation: panelIn 1.8s ease forwards;
             animation-delay: 2.4s;
             z-index: 11;
+            transition: color 0.5s ease;
         }
 
         .panel-tl {
@@ -153,6 +172,7 @@
             font-weight: 700;
             color: var(--blue);
             text-shadow: 0 0 12px var(--blue-glow);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
         }
 
         /* PARTICLES */
@@ -268,11 +288,17 @@
             height: 400px;
             margin: -200px 0 0 -200px;
             border: 3px solid rgba(0, 247, 255, 0.6);
+            /* Use hardcoded mostly but let's variable-ize for theme */
+            border-color: var(--blue-soft);
+            border-width: 3px;
+            border-style: solid;
+
             border-radius: 50%;
             animation: ringRotate 8s linear infinite;
             box-shadow:
-                0 0 20px rgba(0, 247, 255, 0.5),
-                inset 0 0 20px rgba(0, 247, 255, 0.3);
+                0 0 20px var(--blue-soft),
+                inset 0 0 20px var(--blue-soft);
+            transition: all 0.5s ease;
         }
 
         @keyframes ringRotate {
@@ -299,12 +325,13 @@
             position: absolute;
             width: 60px;
             height: 4px;
-            background: linear-gradient(90deg, transparent, #00f7ff, transparent);
+            background: linear-gradient(90deg, transparent, var(--blue), transparent);
             border-radius: 2px;
             top: 50%;
             left: 50%;
             transform-origin: 0 0;
-            box-shadow: 0 0 10px #00f7ff;
+            box-shadow: 0 0 10px var(--blue);
+            transition: all 0.5s ease;
         }
 
         .ring-segment:nth-child(1)::before {
@@ -347,11 +374,12 @@
             width: 320px;
             height: 320px;
             margin: -160px 0 0 -160px;
-            border: 2px solid rgba(0, 247, 255, 0.4);
+            border: 2px solid var(--blue-soft);
             border-radius: 50%;
             animation: ringRotate 6s linear infinite reverse;
             border-style: dashed;
             border-spacing: 10px;
+            transition: border-color 0.5s ease;
         }
 
         /* Lock body */
@@ -366,14 +394,15 @@
                     rgba(0, 40, 80, 0.8) 0%,
                     rgba(0, 80, 120, 0.9) 50%,
                     rgba(0, 40, 80, 0.8) 100%);
-            border: 2px solid rgba(0, 247, 255, 0.8);
+            border: 2px solid var(--blue-glow);
             border-radius: 25px;
             transform-style: preserve-3d;
             animation: lockPulse 3s ease-in-out infinite;
             box-shadow:
-                0 0 30px rgba(0, 247, 255, 0.4),
-                inset 0 0 30px rgba(0, 247, 255, 0.2);
+                0 0 30px var(--blue-soft),
+                inset 0 0 30px var(--blue-soft);
             overflow: visible;
+            transition: all 0.5s ease;
         }
 
         @keyframes lockPulse {
@@ -396,20 +425,20 @@
             width: 100px;
             height: 100px;
             margin-left: -50px;
-            border: 8px solid rgba(0, 247, 255, 0.9);
+            border: 8px solid var(--blue-glow);
             border-bottom: none;
             border-radius: 50px 50px 0 0;
             box-shadow:
-                0 0 20px rgba(0, 247, 255, 0.6),
-                inset 0 0 20px rgba(0, 247, 255, 0.3);
-            transition: transform 0.5s ease-in-out, border-color 0.5s ease;
+                0 0 20px var(--blue-soft),
+                inset 0 0 20px var(--blue-soft);
+            transition: transform 0.5s ease-in-out, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
         /* Circuit pattern on lock */
         .circuit-line {
             position: absolute;
-            background: rgba(0, 247, 255, 0.4);
-            box-shadow: 0 0 5px rgba(0, 247, 255, 0.6);
+            background: var(--blue-soft);
+            box-shadow: 0 0 5px var(--blue-soft);
         }
 
         .circuit-line.h1 {
@@ -452,10 +481,11 @@
             position: absolute;
             width: 6px;
             height: 6px;
-            background: #00f7ff;
+            background: var(--blue);
             border-radius: 50%;
-            box-shadow: 0 0 10px #00f7ff;
+            box-shadow: 0 0 10px var(--blue);
             animation: nodePulse 2s ease-in-out infinite;
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
         }
 
         @keyframes nodePulse {
@@ -509,12 +539,13 @@
         .keyhole-circle {
             width: 30px;
             height: 30px;
-            background: radial-gradient(circle, #00f7ff 0%, rgba(0, 247, 255, 0.4) 70%);
+            background: radial-gradient(circle, var(--blue) 0%, var(--blue-soft) 70%);
             border-radius: 50%;
             box-shadow:
-                0 0 20px #00f7ff,
-                inset 0 0 10px #00f7ff;
+                0 0 20px var(--blue),
+                inset 0 0 10px var(--blue);
             animation: keyholePulse 2s ease-in-out infinite;
+            transition: all 0.5s ease;
         }
 
         @keyframes keyholePulse {
@@ -522,22 +553,23 @@
             0%,
             100% {
                 transform: scale(1);
-                box-shadow: 0 0 20px #00f7ff, inset 0 0 10px #00f7ff;
+                box-shadow: 0 0 20px var(--blue), inset 0 0 10px var(--blue);
             }
 
             50% {
                 transform: scale(1.1);
-                box-shadow: 0 0 30px #00f7ff, inset 0 0 15px #00f7ff;
+                box-shadow: 0 0 30px var(--blue), inset 0 0 15px var(--blue);
             }
         }
 
         .keyhole-slot {
             width: 12px;
             height: 35px;
-            background: linear-gradient(180deg, #00f7ff, rgba(0, 247, 255, 0.4));
+            background: linear-gradient(180deg, var(--blue), var(--blue-soft));
             margin: 0 auto;
             border-radius: 0 0 6px 6px;
-            box-shadow: 0 0 15px #00f7ff;
+            box-shadow: 0 0 15px var(--blue);
+            transition: all 0.5s ease;
         }
 
         /* Orbiting security icons */
@@ -565,14 +597,15 @@
             position: absolute;
             width: 60px;
             height: 60px;
-            border: 2px solid rgba(0, 247, 255, 0.6);
+            border: 2px solid var(--blue-soft);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(0, 30, 60, 0.7);
-            box-shadow: 0 0 15px rgba(0, 247, 255, 0.4);
+            box-shadow: 0 0 15px var(--blue-soft);
             animation: iconFloat 3s ease-in-out infinite;
+            transition: all 0.5s ease;
         }
 
         @keyframes iconFloat {
@@ -591,9 +624,10 @@
             width: 30px;
             height: 30px;
             fill: none;
-            stroke: #00f7ff;
+            stroke: var(--blue);
             stroke-width: 2;
-            filter: drop-shadow(0 0 5px #00f7ff);
+            filter: drop-shadow(0 0 5px var(--blue));
+            transition: all 0.5s ease;
         }
 
         .icon-1 {
@@ -652,12 +686,13 @@
             bottom: -80px;
             left: 50%;
             transform: translateX(-50%);
-            color: #00f7ff;
+            color: var(--blue);
             font-size: 14px;
             letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px #00f7ff;
+            text-shadow: 0 0 10px var(--blue);
             animation: textBlink 2s ease-in-out infinite;
+            transition: all 0.5s ease;
         }
 
         @keyframes textBlink {
@@ -670,6 +705,132 @@
             50% {
                 opacity: 0.5;
             }
+        }
+
+        /* --- UNLOCKED STATE TRANSFORMS --- */
+        /* These are structural changes independent of color theme */
+        body.unlocked .shackle {
+            transform: translateY(-40px);
+        }
+
+        /* --- NEW JARVIS ELEMENTS --- */
+        .jarvis-sidebar-left {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 20;
+            color: var(--blue-soft);
+            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            border-left: 2px solid var(--blue-soft);
+            padding-left: 10px;
+            background: linear-gradient(90deg, rgba(0, 20, 30, 0.6) 0%, transparent 100%);
+            transition: all 0.5s ease;
+        }
+
+        .jarvis-sidebar-right {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 20;
+            color: var(--blue-soft);
+            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            text-align: right;
+            border-right: 2px solid var(--blue-soft);
+            padding-right: 10px;
+            background: linear-gradient(-90deg, rgba(0, 20, 30, 0.6) 0%, transparent 100%);
+            transition: all 0.5s ease;
+        }
+
+        .diag-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 234, 255, 0.1);
+            /* This is very faint, can leave or use variable if needed: var(--blue-soft) with low opacity */
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .diag-fill {
+            height: 100%;
+            background: var(--blue);
+            width: 50%;
+            box-shadow: 0 0 5px var(--blue-glow);
+            animation: barFill 3s infinite ease-in-out alternate;
+            transition: all 0.5s ease;
+        }
+
+        @keyframes barFill {
+            0% {
+                width: 30%;
+            }
+
+            100% {
+                width: 90%;
+            }
+        }
+
+        .log-terminal {
+            height: 150px;
+            overflow: hidden;
+            opacity: 0.8;
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            font-family: monospace;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .spectral-bars {
+            display: flex;
+            gap: 3px;
+            height: 50px;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
+        .s-bar {
+            width: 4px;
+            background: var(--blue);
+            animation: spectral 1s infinite ease-in-out;
+            transition: background-color 0.5s ease;
+        }
+
+        @keyframes spectral {
+
+            0%,
+            100% {
+                height: 20%;
+            }
+
+            50% {
+                height: 100%;
+            }
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 900;
+            opacity: 0.3;
         }
     </style>
 </head>
@@ -846,6 +1007,89 @@
             p.style.animationDelay = Math.random() * 12 + 's';
             container.appendChild(p);
         }
+
+        // --- SOCKET LOGIC ---
+        const socket = io();
+        const statusText = document.querySelector('.status-text');
+        const hudStatusValue = document.querySelector('.panel-tr .value'); // The "ONLINE" status in HUD
+        const body = document.body;
+        const shackle = document.getElementById("shackle");
+
+        // Log generation
+        const logs = document.getElementById('logTerminal');
+        const phrases = [
+            "Handshake initiated...",
+            "Packet validated 0x4F3A",
+            "Encrypting stream...",
+            "Buffer overflow check: PASS",
+            "Port 8080 listening...",
+            "User auth pending...",
+            "Scanning biometrics...",
+            "Ping: 12ms",
+            "Tracing route...",
+            "Firewall active..."
+        ];
+
+        setInterval(() => {
+            if (logs) {
+                const el = document.createElement('div');
+                el.innerText = `> ${phrases[Math.floor(Math.random() * phrases.length)]} ${Math.floor(Math.random() * 1000)}`;
+                logs.prepend(el);
+                if (logs.children.length > 8) logs.lastChild.remove();
+            }
+        }, 800);
+
+        socket.on('connect', () => {
+            if (hudStatusValue) {
+                hudStatusValue.innerText = "ONLINE";
+                hudStatusValue.style.color = "var(--blue)";
+            }
+        });
+
+        socket.on('disconnect', () => {
+            if (hudStatusValue) {
+                hudStatusValue.innerText = "OFFLINE";
+                hudStatusValue.style.color = "red";
+            }
+        });
+
+        const unlockHandler = () => {
+            // 1. ADD THEME CLASS
+            body.classList.add('unlocked');
+
+            // 2. UPDATE TEXT
+            if (statusText) {
+                statusText.innerText = "ACCESS GRANTED";
+                // Color handled by CSS variable override
+            }
+        };
+
+        const lockHandler = () => {
+            // 1. REMOVE THEME CLASS
+            body.classList.remove('unlocked');
+
+            // 2. RESTORE TEXT
+            if (statusText) {
+                statusText.innerText = "ACCESS DENIED";
+            }
+
+            // Clean up any residual inline styles if previous versions left them (good hygiene)
+            const lockBody = document.querySelector('.lock-body');
+            if (lockBody) lockBody.style.borderColor = "";
+            if (shackle) {
+                shackle.style.transform = "";
+                shackle.style.borderColor = "";
+            }
+        };
+
+        // Listen for standard events from controller
+        socket.on('unlock', unlockHandler);
+        socket.on('lock', lockHandler);
+
+        // Listen for alternative events from server (just in case)
+        socket.on('access-granted', unlockHandler);
+        socket.on('access-denied', lockHandler);
+
     </script>
 </body>
 
