@@ -1,228 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI HUD SYSTEM</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 
-<style>
-:root {
-  --blue: #00eaff;
-  --blue-soft: rgba(0, 234, 255, 0.5);
-  --blue-glow: rgba(0, 234, 255, 0.9);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: 'Orbitron', monospace;
-  background: radial-gradient(circle at center, #05131a 0%, #000 70%);
-}
-
-/* BACKGROUND */
-.bg-container {
-  position: fixed;
-  inset: 0;
-}
-
-/* HUD FRAME */
-.hud-frame {
-  position: fixed;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0;
-  animation: frameIn 2.2s ease forwards;
-}
-
-.corner-tl, .corner-tr, .corner-bl, .corner-br {
-  width: 200px;
-  height: 200px;
-}
-
-.corner-tl {
-  top: 20px;
-  left: 20px;
-  border-top: 3px solid var(--blue-soft);
-  border-left: 3px solid var(--blue-soft);
-  transform: translate(-60px, -60px);
-}
-
-.corner-tr {
-  top: 20px;
-  right: 20px;
-  border-top: 3px solid var(--blue-soft);
-  border-right: 3px solid var(--blue-soft);
-  transform: translate(60px, -60px);
-}
-
-.corner-bl {
-  bottom: 20px;
-  left: 20px;
-  border-bottom: 3px solid var(--blue-soft);
-  border-left: 3px solid var(--blue-soft);
-  transform: translate(-60px, 60px);
-}
-
-.corner-br {
-  bottom: 20px;
-  right: 20px;
-  border-bottom: 3px solid var(--blue-soft);
-  border-right: 3px solid var(--blue-soft);
-  transform: translate(60px, 60px);
-}
-
-/* HUD LINES */
-.hud-line {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0.6);
-  width: 420px;
-  height: 2px;
-  background: var(--blue-soft);
-  opacity: 0;
-  animation: lineIn 2s ease forwards;
-  animation-delay: 1.2s;
-}
-
-.line-top { top: 12px; }
-.line-bottom { bottom: 12px; }
-
-/* HUD PANELS */
-.hud-panel {
-  position: fixed;
-  color: var(--blue-soft);
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  opacity: 0;
-  transform: translateY(16px);
-  animation: panelIn 1.8s ease forwards;
-  animation-delay: 2.4s;
-}
-
-.panel-tl { top: 40px; left: 40px; }
-.panel-tr { top: 40px; right: 40px; text-align: right; }
-.panel-bl { bottom: 40px; left: 40px; }
-.panel-br { bottom: 40px; right: 40px; text-align: right; }
-
-.label { opacity: 0.5; font-size: 0.65rem; }
-
-.value {
-  margin-top: 6px;
-  font-weight: 700;
-  color: var(--blue);
-  text-shadow: 0 0 12px var(--blue-glow);
-}
-
-/* PARTICLES */
-.particle {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: var(--blue);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--blue-glow);
-  animation: float 18s linear infinite;
-}
-
-/* KEYFRAMES */
-@keyframes frameIn {
-  to { opacity: 1; transform: translate(0,0); }
-}
-
-@keyframes lineIn {
-  to { opacity: 1; transform: translateX(-50%) scaleX(1); }
-}
-
-@keyframes panelIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); opacity: 0; }
-  20% { opacity: 1; }
-  to { transform: translateY(-120px); opacity: 0; }
-}
-</style>
-</head>
-
-<body>
-
-<div class="bg-container"></div>
-
-<!-- HUD FRAME -->
-<div class="hud-frame corner-tl"></div>
-<div class="hud-frame corner-tr"></div>
-<div class="hud-frame corner-bl"></div>
-<div class="hud-frame corner-br"></div>
-
-<div class="hud-frame hud-line line-top"></div>
-<div class="hud-frame hud-line line-bottom"></div>
-
-<!-- PANELS -->
-<div class="hud-panel panel-tl"><div class="label">SYSTEM</div><div class="value">ACTIVE</div></div>
-<div class="hud-panel panel-tr"><div class="label">STATUS</div><div class="value">ONLINE</div></div>
-<div class="hud-panel panel-bl"><div class="label">ENCRYPTION</div><div class="value">AES-256</div></div>
-<div class="hud-panel panel-br"><div class="label">SIGNAL</div><div class="value">STABLE</div></div>
-
-<script>
-const container = document.querySelector('.bg-container');
-for (let i = 0; i < 30; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  p.style.left = Math.random() * 100 + '%';
-  p.style.animationDelay = Math.random() * 12 + 's';
-  container.appendChild(p);
-}
-</script>
-
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Holographic Lock</title>
+    <title>AI HUD SYSTEM | SECURE LOCK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --blue: #00eaff;
+            --blue-soft: rgba(0, 234, 255, 0.5);
+            --blue-glow: rgba(0, 234, 255, 0.9);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html,
         body {
-    min-height: 100vh;
-    background: transparent; /* background removed */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    font-family: 'Courier New', monospace;
-}
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Orbitron', monospace;
+            background: radial-gradient(circle at center, #05131a 0%, #000 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        /* BACKGROUND */
+        .bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* HUD FRAME */
+        .hud-frame {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            animation: frameIn 2.2s ease forwards;
+        }
+
+        .corner-tl,
+        .corner-tr,
+        .corner-bl,
+        .corner-br {
+            width: 200px;
+            height: 200px;
+        }
+
+        .corner-tl {
+            top: 20px;
+            left: 20px;
+            border-top: 3px solid var(--blue-soft);
+            border-left: 3px solid var(--blue-soft);
+            transform: translate(-60px, -60px);
+        }
+
+        .corner-tr {
+            top: 20px;
+            right: 20px;
+            border-top: 3px solid var(--blue-soft);
+            border-right: 3px solid var(--blue-soft);
+            transform: translate(60px, -60px);
+        }
+
+        .corner-bl {
+            bottom: 20px;
+            left: 20px;
+            border-bottom: 3px solid var(--blue-soft);
+            border-left: 3px solid var(--blue-soft);
+            transform: translate(-60px, 60px);
+        }
+
+        .corner-br {
+            bottom: 20px;
+            right: 20px;
+            border-bottom: 3px solid var(--blue-soft);
+            border-right: 3px solid var(--blue-soft);
+            transform: translate(60px, 60px);
+        }
+
+        /* HUD LINES */
+        .hud-line {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0.6);
+            width: 420px;
+            height: 2px;
+            background: var(--blue-soft);
+            opacity: 0;
+            animation: lineIn 2s ease forwards;
+            animation-delay: 1.2s;
+        }
+
+        .line-top {
+            top: 12px;
+        }
+
+        .line-bottom {
+            bottom: 12px;
+        }
+
+        /* HUD PANELS */
+        .hud-panel {
+            position: fixed;
+            color: var(--blue-soft);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: panelIn 1.8s ease forwards;
+            animation-delay: 2.4s;
+            z-index: 11;
+        }
+
+        .panel-tl {
+            top: 40px;
+            left: 40px;
+        }
+
+        .panel-tr {
+            top: 40px;
+            right: 40px;
+            text-align: right;
+        }
+
+        .panel-bl {
+            bottom: 40px;
+            left: 40px;
+        }
+
+        .panel-br {
+            bottom: 40px;
+            right: 40px;
+            text-align: right;
+        }
+
+        .label {
+            opacity: 0.5;
+            font-size: 0.65rem;
+        }
+
+        .value {
+            margin-top: 6px;
+            font-weight: 700;
+            color: var(--blue);
+            text-shadow: 0 0 12px var(--blue-glow);
+        }
+
+        /* PARTICLES */
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--blue);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--blue-glow);
+            animation: float 18s linear infinite;
+        }
+
+        /* KEYFRAMES HUD */
+        @keyframes frameIn {
+            to {
+                opacity: 1;
+                transform: translate(0, 0);
+            }
+        }
+
+        @keyframes lineIn {
+            to {
+                opacity: 1;
+                transform: translateX(-50%) scaleX(1);
+            }
+        }
+
+        @keyframes panelIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            from {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-120px);
+                opacity: 0;
+            }
+        }
+
+        /* -----------------------
+           3D LOCK STYLES
+           ----------------------- */
 
         .container {
             position: relative;
             width: 600px;
             height: 600px;
             perspective: 1000px;
+            z-index: 5;
         }
 
         /* Animated background grid */
         .grid-background {
             position: absolute;
             inset: -50%;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(0, 247, 255, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 247, 255, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -231,8 +229,13 @@ for (let i = 0; i < 30; i++) {
         }
 
         @keyframes gridMove {
-            0% { transform: rotateX(60deg) translateZ(0); }
-            100% { transform: rotateX(60deg) translateZ(50px); }
+            0% {
+                transform: rotateX(60deg) translateZ(0);
+            }
+
+            100% {
+                transform: rotateX(60deg) translateZ(50px);
+            }
         }
 
         /* Main lock container */
@@ -245,8 +248,15 @@ for (let i = 0; i < 30; i++) {
         }
 
         @keyframes systemFloat {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateY(360deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotateY(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateY(360deg);
+            }
         }
 
         /* Outer rotating ring */
@@ -260,14 +270,19 @@ for (let i = 0; i < 30; i++) {
             border: 3px solid rgba(0, 247, 255, 0.6);
             border-radius: 50%;
             animation: ringRotate 8s linear infinite;
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(0, 247, 255, 0.5),
                 inset 0 0 20px rgba(0, 247, 255, 0.3);
         }
 
         @keyframes ringRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Segmented ring decorations */
@@ -292,14 +307,37 @@ for (let i = 0; i < 30; i++) {
             box-shadow: 0 0 10px #00f7ff;
         }
 
-        .ring-segment:nth-child(1)::before { transform: rotate(0deg) translateX(-200px); }
-        .ring-segment:nth-child(2)::before { transform: rotate(45deg) translateX(-200px); }
-        .ring-segment:nth-child(3)::before { transform: rotate(90deg) translateX(-200px); }
-        .ring-segment:nth-child(4)::before { transform: rotate(135deg) translateX(-200px); }
-        .ring-segment:nth-child(5)::before { transform: rotate(180deg) translateX(-200px); }
-        .ring-segment:nth-child(6)::before { transform: rotate(225deg) translateX(-200px); }
-        .ring-segment:nth-child(7)::before { transform: rotate(270deg) translateX(-200px); }
-        .ring-segment:nth-child(8)::before { transform: rotate(315deg) translateX(-200px); }
+        .ring-segment:nth-child(1)::before {
+            transform: rotate(0deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(2)::before {
+            transform: rotate(45deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(3)::before {
+            transform: rotate(90deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(4)::before {
+            transform: rotate(135deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(5)::before {
+            transform: rotate(180deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(6)::before {
+            transform: rotate(225deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(7)::before {
+            transform: rotate(270deg) translateX(-200px);
+        }
+
+        .ring-segment:nth-child(8)::before {
+            transform: rotate(315deg) translateX(-200px);
+        }
 
         /* Inner rotating ring */
         .inner-ring {
@@ -324,23 +362,30 @@ for (let i = 0; i < 30; i++) {
             width: 180px;
             height: 200px;
             margin: -100px 0 0 -90px;
-            background: linear-gradient(135deg, 
-                rgba(0, 40, 80, 0.8) 0%,
-                rgba(0, 80, 120, 0.9) 50%,
-                rgba(0, 40, 80, 0.8) 100%);
+            background: linear-gradient(135deg,
+                    rgba(0, 40, 80, 0.8) 0%,
+                    rgba(0, 80, 120, 0.9) 50%,
+                    rgba(0, 40, 80, 0.8) 100%);
             border: 2px solid rgba(0, 247, 255, 0.8);
             border-radius: 25px;
             transform-style: preserve-3d;
             animation: lockPulse 3s ease-in-out infinite;
-            box-shadow: 
+            box-shadow:
                 0 0 30px rgba(0, 247, 255, 0.4),
                 inset 0 0 30px rgba(0, 247, 255, 0.2);
             overflow: visible;
         }
 
         @keyframes lockPulse {
-            0%, 100% { transform: translateZ(0); }
-            50% { transform: translateZ(20px); }
+
+            0%,
+            100% {
+                transform: translateZ(0);
+            }
+
+            50% {
+                transform: translateZ(20px);
+            }
         }
 
         /* Lock shackle */
@@ -354,7 +399,7 @@ for (let i = 0; i < 30; i++) {
             border: 8px solid rgba(0, 247, 255, 0.9);
             border-bottom: none;
             border-radius: 50px 50px 0 0;
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(0, 247, 255, 0.6),
                 inset 0 0 20px rgba(0, 247, 255, 0.3);
         }
@@ -366,11 +411,40 @@ for (let i = 0; i < 30; i++) {
             box-shadow: 0 0 5px rgba(0, 247, 255, 0.6);
         }
 
-        .circuit-line.h1 { width: 60px; height: 2px; top: 60px; left: 20px; }
-        .circuit-line.h2 { width: 40px; height: 2px; top: 90px; right: 20px; }
-        .circuit-line.h3 { width: 50px; height: 2px; bottom: 60px; left: 30px; }
-        .circuit-line.v1 { width: 2px; height: 40px; top: 40px; left: 40px; }
-        .circuit-line.v2 { width: 2px; height: 50px; top: 70px; right: 40px; }
+        .circuit-line.h1 {
+            width: 60px;
+            height: 2px;
+            top: 60px;
+            left: 20px;
+        }
+
+        .circuit-line.h2 {
+            width: 40px;
+            height: 2px;
+            top: 90px;
+            right: 20px;
+        }
+
+        .circuit-line.h3 {
+            width: 50px;
+            height: 2px;
+            bottom: 60px;
+            left: 30px;
+        }
+
+        .circuit-line.v1 {
+            width: 2px;
+            height: 40px;
+            top: 40px;
+            left: 40px;
+        }
+
+        .circuit-line.v2 {
+            width: 2px;
+            height: 50px;
+            top: 70px;
+            right: 40px;
+        }
 
         /* Circuit nodes */
         .circuit-node {
@@ -384,14 +458,42 @@ for (let i = 0; i < 30; i++) {
         }
 
         @keyframes nodePulse {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
         }
 
-        .circuit-node:nth-child(1) { top: 60px; left: 20px; animation-delay: 0s; }
-        .circuit-node:nth-child(2) { top: 60px; left: 78px; animation-delay: 0.3s; }
-        .circuit-node:nth-child(3) { top: 40px; left: 40px; animation-delay: 0.6s; }
-        .circuit-node:nth-child(4) { top: 90px; right: 20px; animation-delay: 0.9s; }
+        .circuit-node:nth-child(1) {
+            top: 60px;
+            left: 20px;
+            animation-delay: 0s;
+        }
+
+        .circuit-node:nth-child(2) {
+            top: 60px;
+            left: 78px;
+            animation-delay: 0.3s;
+        }
+
+        .circuit-node:nth-child(3) {
+            top: 40px;
+            left: 40px;
+            animation-delay: 0.6s;
+        }
+
+        .circuit-node:nth-child(4) {
+            top: 90px;
+            right: 20px;
+            animation-delay: 0.9s;
+        }
 
         /* Keyhole glow */
         .keyhole {
@@ -408,15 +510,24 @@ for (let i = 0; i < 30; i++) {
             height: 30px;
             background: radial-gradient(circle, #00f7ff 0%, rgba(0, 247, 255, 0.4) 70%);
             border-radius: 50%;
-            box-shadow: 
+            box-shadow:
                 0 0 20px #00f7ff,
                 inset 0 0 10px #00f7ff;
             animation: keyholePulse 2s ease-in-out infinite;
         }
 
         @keyframes keyholePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px #00f7ff, inset 0 0 10px #00f7ff; }
-            50% { transform: scale(1.1); box-shadow: 0 0 30px #00f7ff, inset 0 0 15px #00f7ff; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px #00f7ff, inset 0 0 10px #00f7ff;
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px #00f7ff, inset 0 0 15px #00f7ff;
+            }
         }
 
         .keyhole-slot {
@@ -440,8 +551,13 @@ for (let i = 0; i < 30; i++) {
         }
 
         @keyframes orbitRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .security-icon {
@@ -459,8 +575,15 @@ for (let i = 0; i < 30; i++) {
         }
 
         @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(180deg); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+            }
         }
 
         .security-icon svg {
@@ -472,18 +595,50 @@ for (let i = 0; i < 30; i++) {
             filter: drop-shadow(0 0 5px #00f7ff);
         }
 
-        .icon-1 { top: 0; left: 50%; margin-left: -30px; animation-delay: 0s; }
-        .icon-2 { top: 50%; right: 0; margin-top: -30px; animation-delay: 0.5s; }
-        .icon-3 { bottom: 0; left: 50%; margin-left: -30px; animation-delay: 1s; }
-        .icon-4 { top: 50%; left: 0; margin-top: -30px; animation-delay: 1.5s; }
+        .icon-1 {
+            top: 0;
+            left: 50%;
+            margin-left: -30px;
+            animation-delay: 0s;
+        }
+
+        .icon-2 {
+            top: 50%;
+            right: 0;
+            margin-top: -30px;
+            animation-delay: 0.5s;
+        }
+
+        .icon-3 {
+            bottom: 0;
+            left: 50%;
+            margin-left: -30px;
+            animation-delay: 1s;
+        }
+
+        .icon-4 {
+            top: 50%;
+            left: 0;
+            margin-top: -30px;
+            animation-delay: 1.5s;
+        }
 
 
-        
         /* Holographic glitch effect */
         @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            33% { transform: translate(-2px, 2px); }
-            66% { transform: translate(2px, -2px); }
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            33% {
+                transform: translate(-2px, 2px);
+            }
+
+            66% {
+                transform: translate(2px, -2px);
+            }
         }
 
         .lock-body:hover {
@@ -505,17 +660,52 @@ for (let i = 0; i < 30; i++) {
         }
 
         @keyframes textBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
 
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
     </style>
 </head>
-<body>
-    
-    <div class="container">
 
-      
+<body>
+
+    <div class="bg-container"></div>
+
+    <!-- HUD FRAME -->
+    <div class="hud-frame corner-tl"></div>
+    <div class="hud-frame corner-tr"></div>
+    <div class="hud-frame corner-bl"></div>
+    <div class="hud-frame corner-br"></div>
+
+    <div class="hud-frame hud-line line-top"></div>
+    <div class="hud-frame hud-line line-bottom"></div>
+
+    <!-- PANELS -->
+    <div class="hud-panel panel-tl">
+        <div class="label">SYSTEM</div>
+        <div class="value">ACTIVE</div>
+    </div>
+    <div class="hud-panel panel-tr">
+        <div class="label">STATUS</div>
+        <div class="value">ONLINE</div>
+    </div>
+    <div class="hud-panel panel-bl">
+        <div class="label">ENCRYPTION</div>
+        <div class="value">AES-256</div>
+    </div>
+    <div class="hud-panel panel-br">
+        <div class="label">SIGNAL</div>
+        <div class="value">STABLE</div>
+    </div>
+
+    <!-- LOCK CONTAINER -->
+    <div class="container">
 
         <div class="lock-system">
             <!-- Outer rotating ring -->
@@ -537,26 +727,26 @@ for (let i = 0; i < 30; i++) {
             <div class="orbit-container">
                 <div class="security-icon icon-1">
                     <svg viewBox="0 0 24 24">
-                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
-                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" />
+                        <circle cx="12" cy="12" r="3" />
                     </svg>
                 </div>
                 <div class="security-icon icon-2">
                     <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M12 6v6l4 2"/>
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 6v6l4 2" />
                     </svg>
                 </div>
                 <div class="security-icon icon-3">
                     <svg viewBox="0 0 24 24">
-                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
-                        <path d="M9 12l2 2 4-4"/>
+                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z" />
+                        <path d="M9 12l2 2 4-4" />
                     </svg>
                 </div>
                 <div class="security-icon icon-4">
                     <svg viewBox="0 0 24 24">
-                        <rect x="3" y="11" width="18" height="11" rx="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     </svg>
                 </div>
             </div>
@@ -564,20 +754,20 @@ for (let i = 0; i < 30; i++) {
             <!-- Main lock -->
             <div class="lock-body">
                 <div class="shackle"></div>
-                
+
                 <!-- Circuit pattern -->
                 <div class="circuit-line h1"></div>
                 <div class="circuit-line h2"></div>
                 <div class="circuit-line h3"></div>
                 <div class="circuit-line v1"></div>
                 <div class="circuit-line v2"></div>
-                
+
                 <!-- Circuit nodes -->
                 <div class="circuit-node"></div>
                 <div class="circuit-node"></div>
                 <div class="circuit-node"></div>
                 <div class="circuit-node"></div>
-                
+
                 <!-- Keyhole -->
                 <div class="keyhole">
                     <div class="keyhole-circle"></div>
@@ -589,5 +779,17 @@ for (let i = 0; i < 30; i++) {
             </div>
         </div>
     </div>
+
+    <script>
+        const container = document.querySelector('.bg-container');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 12 + 's';
+            container.appendChild(p);
+        }
+    </script>
 </body>
+
 </html>
