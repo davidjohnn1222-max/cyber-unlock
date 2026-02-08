@@ -651,14 +651,18 @@
         /* Status text */
         .status-text {
             position: absolute;
-            bottom: -80px;
+            bottom: -130px;
             left: 50%;
             transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
             color: #00f7ff;
-            font-size: 14px;
-            letter-spacing: 3px;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px #00f7ff;
+            text-shadow: 0 0 20px #00f7ff;
+            white-space: nowrap;
             animation: textBlink 2s ease-in-out infinite;
         }
 
@@ -958,6 +962,24 @@
         const socket = io();
         const statusText = document.getElementById("accessStatus");
         const shackle = document.getElementById("shackle");
+
+        // Particle generation
+        const bgContainer = document.querySelector('.bg-container');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const x = Math.random() * 100;
+            const delay = Math.random() * 20;
+            const duration = 10 + Math.random() * 20;
+
+            particle.style.left = `${x}%`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.animationDuration = `${duration}s`;
+
+            bgContainer.appendChild(particle);
+        }
 
         // Log generation
         const logs = document.getElementById('logTerminal');
